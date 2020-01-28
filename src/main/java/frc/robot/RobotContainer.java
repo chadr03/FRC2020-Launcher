@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ConveyorSubsystem;
@@ -17,6 +18,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -36,14 +38,38 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-
-
+  // The driver's controller
+  
+  Joystick driverController = new Joystick(Constants.DRIVE_JOYSTICK_PORT);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    // Configure default commands
+    // Set the default drive command to split-stick arcade drive
+    drive.setDefaultCommand(
+    
+      new RunCommand(() -> drive
+  
+       // A split-stick arcade command, with forward/backward controlled by the left
+        // hand, and turning controlled by the right.
+       
+      .teleopDrive(-driverController.getRawAxis(Constants.GP_LEFT_Y_AXIS),
+                   driverController.getRawAxis(Constants.GP_RIGHT_X_AXIS)), drive));
+
+    lift.setDefaultCommand(
+    
+      new RunCommand(() -> lift
+  
+       // Left Trigger and Right Trigger Drive Lift
+       
+      .manualLift(-driverController.getRawAxis(Constants.GP_LEFT_TRIGGER) + driverController.getRawAxis(Constants.GP_RIGHT_TRIGGER)
+                   ), lift));
+    
+
   }
 
   /**

@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -31,7 +32,7 @@ public class LauncherSubsystem extends SubsystemBase {
 
   //Sets up PID Controller
   private CANPIDController pidController;
-  public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
+  public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, allowableError;
 
   private double velocitySetpoint = 0.0;
 
@@ -59,6 +60,7 @@ public class LauncherSubsystem extends SubsystemBase {
         kMaxOutput = 1; 
         kMinOutput = -1;
         maxRPM = 5700;
+        allowableError = 100; //Lets the system known when the velocity is close enough to launch
 
         // set PID coefficients
         pidController.setP(kP);
@@ -76,6 +78,10 @@ public class LauncherSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    
+    //Smart Dashboard Items
+    SmartDashboard.putNumber("Launcher Velocity", getLauncherVelocity());
+    SmartDashboard.putBoolean("At Set Velocity", isAtVelocity());
   }
 
   public void manualLanuch(double speed){
@@ -97,5 +103,10 @@ public class LauncherSubsystem extends SubsystemBase {
 
   public double getLauncherVelocity(){
     return launcherEncoder.getVelocity();
+  }
+
+  public boolean isAtVelocity(){
+    double error = getLauncherVelocity() - velocitySetpoint;
+    return (Math.abs(error) < allowableError);
   }
 }

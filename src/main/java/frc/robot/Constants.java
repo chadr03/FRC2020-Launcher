@@ -17,6 +17,8 @@ package frc.robot;
  */
 public final class Constants {
 
+
+
 //CAN ID's
 public static final int LEFT_DRIVE_MOTOR_LEAD_PORT = 1;
 public static final int LEFT_DRIVE_MOTOR_FOLLOW_PORT = 2;
@@ -44,6 +46,38 @@ public static final int LIFT_BRAKE_PCM_PORT = 3;
 //DIO Ports
 public static final int INTAKE_SENSOR = 0;
 public static final int LAUNCHER_SENSOR = 1;
+
+
+//Joystick Ports
+public static final int DRIVE_JOYSTICK_PORT = 0;
+public static final int MANIPULATE_JOYSTICK_PORT = 1;
+
+
+//Gamepad Buttons and Axis
+
+public static final int GP_LEFT_X_AXIS = 0;
+public static final int GP_LEFT_Y_AXIS = 1;
+public static final int GP_RIGHT_X_AXIS = 4;
+public static final int GP_RIGHT_Y_AXIS = 5;
+public static final int GP_LEFT_TRIGGER = 2;
+public static final int GP_RIGHT_TRIGGER = 3;
+
+public static final int GP_A_BUTTON = 1;
+public static final int GP_B_BUTTON = 2;
+public static final int GP_X_BUTTON = 3;
+public static final int GP_Y_BUTTON = 4;
+public static final int GP_LEFT_BUMPER = 5;
+public static final int GP_RIGHT_BUMPER = 6;
+public static final int GP_BACK_BUTTON = 7;
+public static final int GP_START_BUTTON = 8;
+public static final int GP_LEFT_JOYSTICK_BUTTON = 9;
+public static final int GP_RIGHT_JOYSTICK_BUTTON = 10;
+
+
+
+
+
+
 
 
 }
