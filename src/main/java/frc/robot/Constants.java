@@ -74,6 +74,10 @@ public static final int GP_LEFT_JOYSTICK_BUTTON = 9;
 public static final int GP_RIGHT_JOYSTICK_BUTTON = 10;
 
 
+//Mechanism Constants
+public static final double CONVEYOR_SPEED = 0.6;
+
+
 
 
 

@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AutoConveyorCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -68,6 +69,8 @@ public class RobotContainer {
        
       .manualLift(-driverController.getRawAxis(Constants.GP_LEFT_TRIGGER) + driverController.getRawAxis(Constants.GP_RIGHT_TRIGGER)
                    ), lift));
+
+    conveyor.setDefaultCommand(new AutoConveyorCommand(conveyor));
     
 
   }
