@@ -35,6 +35,8 @@ public static final int INTAKE_MOTOR_PORT = 0;
 public static final int CONVEYOR_TOP_MOTOR_PORT = 1;
 public static final int CONVEYOR_BOTTOM_MOTOR_PORT = 2;
 
+public static final int LED_PORT = 9;
+
 
 //PCM PORTS
 public static final int INTAKE_PCM_PORT = 0;

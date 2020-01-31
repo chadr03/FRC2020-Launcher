@@ -16,6 +16,7 @@ import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,6 +36,7 @@ public class RobotContainer {
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final ConveyorSubsystem conveyor = new ConveyorSubsystem();
   private final LauncherSubsystem launcher = new LauncherSubsystem();
+  private final LEDSubsystem led = new LEDSubsystem();
 
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
