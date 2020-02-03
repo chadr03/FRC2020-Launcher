@@ -30,7 +30,7 @@ public class LEDSubsystem extends SubsystemBase {
     // Reuse buffer
     // Default to a length of 60, start empty output
     // Length is expensive to set, so only set it once, then just update data
-    m_ledBuffer = new AddressableLEDBuffer(39);
+    m_ledBuffer = new AddressableLEDBuffer(10);
     m_led.setLength(m_ledBuffer.getLength());
 
     // Set the data
@@ -46,12 +46,10 @@ public class LEDSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // Fill the buffer with a rainbow
-    rainbow();
-    // Set the LEDs
-    m_led.setData(m_ledBuffer);
+
   }
 
-  private void rainbow() {
+  public void rainbow() {
     // For every pixel
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       // Calculate the hue - hue is easier for rainbows because the color
@@ -64,6 +62,8 @@ public class LEDSubsystem extends SubsystemBase {
     m_rainbowFirstPixelHue += 3;
     // Check bounds
     m_rainbowFirstPixelHue %= 180;
+
+    m_led.setData(m_ledBuffer);
   }
 
   public void red() {

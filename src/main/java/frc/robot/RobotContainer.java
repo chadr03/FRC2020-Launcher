@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoConveyorCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ConveyorSubsystem;
@@ -48,6 +49,13 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    // Put Some buttons on the SmartDashboard
+
+    SmartDashboard.putData("Green LED", new RunCommand(() -> led.green(),led));
+    SmartDashboard.putData("Red LED", new RunCommand(() -> led.red(),led));
+    SmartDashboard.putData("Blue LED", new RunCommand(() -> led.blue(),led));
+    
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -73,6 +81,8 @@ public class RobotContainer {
                    ), lift));
 
     conveyor.setDefaultCommand(new AutoConveyorCommand(conveyor));
+
+    led.setDefaultCommand(new RunCommand(led::rainbow, led));
     
 
   }
