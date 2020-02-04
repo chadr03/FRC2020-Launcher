@@ -78,6 +78,7 @@ public static final int GP_RIGHT_JOYSTICK_BUTTON = 10;
 
 //Mechanism Constants
 public static final double CONVEYOR_SPEED = 0.6;
+public static final double LAUNCHER_SPEED = 5000;
 
 
 
