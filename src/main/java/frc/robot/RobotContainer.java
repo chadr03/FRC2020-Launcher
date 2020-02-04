@@ -54,6 +54,7 @@ public class RobotContainer {
     SmartDashboard.putData("Green LED", new RunCommand(() -> led.green(),led));
     SmartDashboard.putData("Red LED", new RunCommand(() -> led.red(),led));
     SmartDashboard.putData("Blue LED", new RunCommand(() -> led.blue(),led));
+    led.purple(); // Turns on Purple LED's even when disabled
     
 
     // Configure the button bindings

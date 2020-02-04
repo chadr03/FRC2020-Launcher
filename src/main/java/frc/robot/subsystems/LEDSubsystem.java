@@ -21,6 +21,10 @@ public class LEDSubsystem extends SubsystemBase {
   private AddressableLEDBuffer m_ledBuffer;
   // Store what the last hue of the first pixel is
   private int m_rainbowFirstPixelHue;
+
+  private int bluePulseBrightness = 0;
+  private int blueStreakLED = 0;
+  private int numLoops = 0;
   
   public LEDSubsystem() {
     // PWM port 9
@@ -91,5 +95,60 @@ public class LEDSubsystem extends SubsystemBase {
    }
    
    m_led.setData(m_ledBuffer);
+  }
+
+  public void purple() {
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Sets the specified LED to the RGB values for purple
+      m_ledBuffer.setRGB(i, 148, 0, 211);
+   }
+   
+   m_led.setData(m_ledBuffer);
+  }
+
+
+
+
+  public void bluePulse(){
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Sets the specified LED to the RGB values for blue
+      m_ledBuffer.setRGB(i, 0, 0, bluePulseBrightness);
+   }
+
+   //increase brightness
+   bluePulseBrightness += 5;
+
+   //Check bounds
+   bluePulseBrightness %= 255;
+
+   m_led.setData(m_ledBuffer);
+
+  }
+
+  public void blueStreak(){
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Sets the specified LED to the RGB values for blue
+      m_ledBuffer.setRGB(i, 0, 0, 255);
+   }
+
+   //turns one led off
+   m_ledBuffer.setRGB(blueStreakLED, 0, 0, 0);
+
+   //increase brightness
+   if (numLoops%3 == 0){
+      blueStreakLED += 1;
+
+
+      //Check bounds
+      blueStreakLED %= m_ledBuffer.getLength();
+    }
+
+   m_led.setData(m_ledBuffer);
+
+
+   numLoops += 1;
+   //Timer.delay(0.2);
+   
+
   }
 }
