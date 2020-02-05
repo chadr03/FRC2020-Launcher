@@ -48,6 +48,11 @@ public class DriveSubsystem extends SubsystemBase {
     leftFollower.restoreFactoryDefaults();
     rightLeader.restoreFactoryDefaults();
     rightFollower.restoreFactoryDefaults();
+
+    leftLeader.setSmartCurrentLimit(Constants.SPARK_MAX_CURRENT_LIMIT);
+    leftFollower.setSmartCurrentLimit(Constants.SPARK_MAX_CURRENT_LIMIT);
+    rightLeader.setSmartCurrentLimit(Constants.SPARK_MAX_CURRENT_LIMIT);
+    rightFollower.setSmartCurrentLimit(Constants.SPARK_MAX_CURRENT_LIMIT);
   
 
     //Sets up follower motors

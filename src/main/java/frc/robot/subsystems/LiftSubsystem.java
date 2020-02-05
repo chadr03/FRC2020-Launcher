@@ -40,6 +40,19 @@ public class LiftSubsystem extends SubsystemBase {
     liftLeader.configFactoryDefault();
     liftFollower.configFactoryDefault();
 
+    liftLeader.configPeakCurrentLimit(Constants.TALON_SRX_PEAK_CURRENT_LIMIT);
+    liftLeader.configPeakCurrentDuration(Constants.TALON_SRX_PEAK_CURRENT_DURATION);
+    liftLeader.configContinuousCurrentLimit(Constants.TALON_SRX_CONT_CURRENT_LIMIT);
+    liftLeader.enableCurrentLimit(true);
+
+    liftFollower.configPeakCurrentLimit(Constants.TALON_SRX_PEAK_CURRENT_LIMIT);
+    liftFollower.configPeakCurrentDuration(Constants.TALON_SRX_PEAK_CURRENT_DURATION);
+    liftFollower.configContinuousCurrentLimit(Constants.TALON_SRX_CONT_CURRENT_LIMIT);
+    liftFollower.enableCurrentLimit(true);
+
+
+
+
     //Sets up follower
     liftFollower.follow(liftLeader);
 

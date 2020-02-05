@@ -41,6 +41,9 @@ public class LauncherSubsystem extends SubsystemBase {
         launcherLeader.restoreFactoryDefaults();
         launcherFollower.restoreFactoryDefaults();
 
+        launcherLeader.setSmartCurrentLimit(Constants.SPARK_MAX_CURRENT_LIMIT);
+        launcherFollower.setSmartCurrentLimit(Constants.SPARK_MAX_CURRENT_LIMIT);
+
         //sets up follower and makes the direction inverted to the leader
         launcherFollower.follow(launcherLeader, true);
 
