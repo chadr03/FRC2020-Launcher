@@ -84,8 +84,32 @@ public static final int TALON_SRX_PEAK_CURRENT_LIMIT = 60;
 public static final int TALON_SRX_CONT_CURRENT_LIMIT = 40;
 public static final int TALON_SRX_PEAK_CURRENT_DURATION = 100;
 
+//Lift Motion Magic
+public static final double LIFT_KP = 0.2;
+public static final double LIFT_KI = 0.0;
+public static final double LIFT_KD = 0.0;
+public static final double LIFT_KF = 0.2;
+public static final double LIFT_KIZONE = 0.0;
+public static final double LIFT_KPEAK_OUTPUT = 1.0;
+public static final int LIFT_CRUISE_VELOCITY = 15000;
+public static final int LIFT_ACCELERATION = 6000;
 
 
+
+
+
+
+
+
+
+/**
+ * Which PID slot to pull gains from. Starting 2018, you can choose from
+ * 0,1,2 or 3. Only the first two (0,1) are visible in web-based
+ * configuration.
+ */
+public static final int kSlotIdx = 0;
+public static final int kPIDLoopIdx = 0;
+public static final int kTimeoutMs = 30;
 
 
 

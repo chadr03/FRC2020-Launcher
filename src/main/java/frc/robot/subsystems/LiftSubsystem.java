@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
@@ -34,6 +35,8 @@ public class LiftSubsystem extends SubsystemBase {
 
   DoubleSolenoid hangerSolenoid = new DoubleSolenoid(Constants.HANGER_OPEN_PCM_PORT, Constants.HANGER_CLOSED_PCM_PORT);
   Solenoid liftBrake = new Solenoid(Constants.LIFT_BRAKE_PCM_PORT);
+
+  private int liftSetPoint = 0;
  
   public LiftSubsystem() {
     //Reset factory default to clear any odd settings
@@ -58,8 +61,33 @@ public class LiftSubsystem extends SubsystemBase {
 
     //Sets up encoder
     liftLeader.setSensorPhase(true);
-		liftLeader.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		liftLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 
+
+    //Motion Magic Setup
+    /* Set relevant frame periods to be at least as fast as periodic rate */
+		liftLeader.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
+		liftLeader.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
+
+		/* Set the peak and nominal outputs */
+		liftLeader.configNominalOutputForward(0, Constants.kTimeoutMs);
+		liftLeader.configNominalOutputReverse(0, Constants.kTimeoutMs);
+		liftLeader.configPeakOutputForward(1, Constants.kTimeoutMs);
+		liftLeader.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+
+		/* Set Motion Magic gains in slot0 - see documentation */
+		liftLeader.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
+		liftLeader.config_kF(Constants.kSlotIdx, Constants.LIFT_KF, Constants.kTimeoutMs);
+		liftLeader.config_kP(Constants.kSlotIdx, Constants.LIFT_KP, Constants.kTimeoutMs);
+		liftLeader.config_kI(Constants.kSlotIdx, Constants.LIFT_KI, Constants.kTimeoutMs);
+		liftLeader.config_kD(Constants.kSlotIdx, Constants.LIFT_KD, Constants.kTimeoutMs);
+
+		/* Set acceleration and vcruise velocity - see documentation */
+		liftLeader.configMotionCruiseVelocity(Constants.LIFT_CRUISE_VELOCITY, Constants.kTimeoutMs);
+		liftLeader.configMotionAcceleration(Constants.LIFT_ACCELERATION, Constants.kTimeoutMs);
+
+		/* Zero the sensor once on robot boot up */
+		liftLeader.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
   }
 
   @Override
@@ -73,6 +101,16 @@ public class LiftSubsystem extends SubsystemBase {
 
   public void manualLift(double move){
     liftLeader.set(ControlMode.PercentOutput, move);
+  }
+
+  public void motionMagicLift(){
+    liftLeader.set(ControlMode.MotionMagic, liftSetPoint);
+  }
+
+  public void manualMotionMagicLift(double move){
+    double moveConstant = 1.0;
+    int moveValue = (int)(move * moveConstant);
+    liftSetPoint = liftSetPoint + moveValue;
   }
 
   public void closeHangerHooks(){
@@ -108,5 +146,13 @@ public class LiftSubsystem extends SubsystemBase {
 
   public double getLiftVelocity(){
     return this.liftLeader.getSelectedSensorVelocity(0);
+  }
+
+  public void setLiftSetpoint(int setpoint){
+    liftSetPoint = setpoint;
+  }
+
+  public int getLiftSetpoint(){
+    return liftSetPoint;
   }
 }
