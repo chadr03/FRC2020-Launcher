@@ -20,15 +20,15 @@ public final class Constants {
 
 
 //CAN ID's
-public static final int LEFT_DRIVE_MOTOR_LEAD_PORT = 1;
-public static final int LEFT_DRIVE_MOTOR_FOLLOW_PORT = 2;
-public static final int RIGHT_DRIVE_MOTOR_LEAD_PORT = 3;
-public static final int RIGHT_DRIVE_MOTOR_FOLLOW_PORT = 4;
-public static final int LAUNCHER_MOTOR_LEAD_PORT = 5;
-public static final int LAUNCHER_MOTOR_FOLLOW_PORT = 6;
+public static final int LEFT_DRIVE_MOTOR_LEAD_PORT = 7;
+public static final int LEFT_DRIVE_MOTOR_FOLLOW_PORT = 8;
+public static final int RIGHT_DRIVE_MOTOR_LEAD_PORT = 6;
+public static final int RIGHT_DRIVE_MOTOR_FOLLOW_PORT = 5;
+public static final int LAUNCHER_MOTOR_LEAD_PORT = 3;
+public static final int LAUNCHER_MOTOR_FOLLOW_PORT = 2;
 
-public static final int LIFT_MOTOR_LEAD_PORT = 5;
-public static final int LIFT_MOTOR_FOLLOW_PORT = 6;
+public static final int LIFT_MOTOR_LEAD_PORT = 20;
+public static final int LIFT_MOTOR_FOLLOW_PORT = 21;
 
 //PWM PORTS
 public static final int INTAKE_MOTOR_PORT = 0;

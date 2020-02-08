@@ -33,8 +33,8 @@ public class LiftSubsystem extends SubsystemBase {
   //Encoder needs to be pugged into liftLeader and pidgeon into liftFollower
   PigeonIMU imu = new PigeonIMU(liftFollower);
 
-  DoubleSolenoid hangerSolenoid = new DoubleSolenoid(Constants.HANGER_OPEN_PCM_PORT, Constants.HANGER_CLOSED_PCM_PORT);
-  Solenoid liftBrake = new Solenoid(Constants.LIFT_BRAKE_PCM_PORT);
+  //DoubleSolenoid hangerSolenoid = new DoubleSolenoid(Constants.HANGER_OPEN_PCM_PORT, Constants.HANGER_CLOSED_PCM_PORT);
+  //Solenoid liftBrake = new Solenoid(Constants.LIFT_BRAKE_PCM_PORT);
 
   private int liftSetPoint = 0;
  
@@ -60,7 +60,7 @@ public class LiftSubsystem extends SubsystemBase {
     liftFollower.follow(liftLeader);
 
     //Sets up encoder
-    liftLeader.setSensorPhase(true);
+    liftLeader.setSensorPhase(false);
 		liftLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 
 
@@ -108,11 +108,12 @@ public class LiftSubsystem extends SubsystemBase {
   }
 
   public void manualMotionMagicLift(double move){
-    double moveConstant = 1.0;
-    int moveValue = (int)(move * moveConstant);
+    double move_constant = 1.0;
+    int moveValue = (int)(move * move_constant);
     liftSetPoint = liftSetPoint + moveValue;
   }
 
+  /*
   public void closeHangerHooks(){
     hangerSolenoid.set(Value.kForward);
   }
@@ -133,7 +134,7 @@ public class LiftSubsystem extends SubsystemBase {
     liftBrake.set(false);
   }
 
-
+  */
   public double getAngle(){
     double[] ypr_deg = new double[3];
 		imu.getYawPitchRoll(ypr_deg);

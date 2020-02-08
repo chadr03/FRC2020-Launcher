@@ -85,6 +85,7 @@ public class LauncherSubsystem extends SubsystemBase {
     //Smart Dashboard Items
     SmartDashboard.putNumber("Launcher Velocity", getLauncherVelocity());
     SmartDashboard.putBoolean("At Set Velocity", isAtVelocity());
+    SmartDashboard.putNumber("Launcher Setpoint", getVelocitySetpoint());
   }
 
   public void manualLanuch(double speed){

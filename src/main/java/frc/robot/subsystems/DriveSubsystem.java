@@ -41,7 +41,7 @@ public class DriveSubsystem extends SubsystemBase {
   
   public DriveSubsystem(LiftSubsystem liftSubsystem) {
     //the liftSubsytem passed into the construstor is set into the global lift subsystem
-    drive_LiftSubsystem = liftSubsystem;
+    //drive_LiftSubsystem = liftSubsystem;
 
     //Resets motor controllers to default conditions
     leftLeader.restoreFactoryDefaults();
@@ -63,8 +63,8 @@ public class DriveSubsystem extends SubsystemBase {
     leftEncoder = leftLeader.getEncoder();
     rightEncoder = rightLeader.getEncoder();
     //if encoder is counting down when going forward ajust this setting
-    rightEncoder.setInverted(false);
-    leftEncoder.setInverted(false);
+    //rightEncoder.setInverted(false);
+    //leftEncoder.setInverted(false);
 
   }
 
@@ -76,7 +76,7 @@ public class DriveSubsystem extends SubsystemBase {
     //Smart Dashboard Items
     SmartDashboard.putNumber("Left Drive Encoder Position", getLeftEncoderPosition());
     SmartDashboard.putNumber("Right Drive Encoder Position", getRightEncoderPosition());
-    SmartDashboard.putNumber("Drive Angle", getAngle());
+    //SmartDashboard.putNumber("Drive Angle", getAngle());
   }
 
   public void teleopDrive(double move, double turn) {

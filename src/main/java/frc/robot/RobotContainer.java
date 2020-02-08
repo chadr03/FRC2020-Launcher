@@ -34,9 +34,9 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final LiftSubsystem lift = new LiftSubsystem();//This must be before the drive subsystem because it has the gyro that drive uses
   private final DriveSubsystem drive = new DriveSubsystem(lift);
-  private final IntakeSubsystem intake = new IntakeSubsystem();
-  private final ConveyorSubsystem conveyor = new ConveyorSubsystem();
-  private final LauncherSubsystem launcher = new LauncherSubsystem();
+  //private final IntakeSubsystem intake = new IntakeSubsystem();
+  //private final ConveyorSubsystem conveyor = new ConveyorSubsystem();
+  //private final LauncherSubsystem launcher = new LauncherSubsystem();
   private final LEDSubsystem led = new LEDSubsystem();
 
 
@@ -81,8 +81,8 @@ public class RobotContainer {
       .manualLift(-driverController.getRawAxis(Constants.GP_LEFT_TRIGGER) + driverController.getRawAxis(Constants.GP_RIGHT_TRIGGER)
                    ), lift));
 
-    conveyor.setDefaultCommand(new AutoConveyorCommand(conveyor));
-
+    //conveyor.setDefaultCommand(new AutoConveyorCommand(conveyor));
+    
     led.setDefaultCommand(new RunCommand(led::rainbow, led));
     
 
