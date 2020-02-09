@@ -22,8 +22,8 @@ public class LimeLightSubsystem extends SubsystemBase {
   private double horizontalOffset; 
   private double verticalOffset; 
   private double targetArea;
-  private double skew;
-  private double activePipeline;
+  //private double skew;
+  //private double activePipeline;
   
 
   public LimeLightSubsystem() {
@@ -41,8 +41,8 @@ public class LimeLightSubsystem extends SubsystemBase {
     horizontalOffset = getHorizontalOffset();
     verticalOffset = getVerticalOffset();
     targetArea = getTargetArea();
-    skew = getSkew();
-    activePipeline = getActivePipeline();
+    //skew = getSkew();
+    //activePipeline = getActivePipeline();
 
 
     //Smart Dashboard Items

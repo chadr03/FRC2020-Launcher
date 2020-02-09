@@ -12,10 +12,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
-
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -33,7 +29,7 @@ public class LiftSubsystem extends SubsystemBase {
   //Encoder needs to be pugged into liftLeader and pidgeon into liftFollower
   PigeonIMU imu = new PigeonIMU(liftFollower);
 
-  //DoubleSolenoid hangerSolenoid = new DoubleSolenoid(Constants.HANGER_OPEN_PCM_PORT, Constants.HANGER_CLOSED_PCM_PORT);
+ 
   
 
   private int liftSetPoint = 0;
@@ -114,17 +110,7 @@ public class LiftSubsystem extends SubsystemBase {
   }
 
   /*
-  public void closeHangerHooks(){
-    hangerSolenoid.set(Value.kForward);
-  }
 
-  public void openHangerHooks(){
-    hangerSolenoid.set(Value.kReverse);
-  }
-
-  public void parkHangerHooks(){
-    hangerSolenoid.set(Value.kOff);
-  }
 
 
 
