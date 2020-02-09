@@ -28,7 +28,7 @@ public class FireWhenReadyCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    cmd_launcher.setVelocitySetpoint(Constants.LAUNCHER_SPEED);
+    cmd_launcher.setVelocitySetpoint(Constants.LAUNCHER_SPEED_LONG);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -13,14 +13,17 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoConveyorCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.ClimbHookSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
+import frc.robot.subsystems.LiftBrakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
@@ -34,9 +37,11 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final LiftSubsystem lift = new LiftSubsystem();//This must be before the drive subsystem because it has the gyro that drive uses
   private final DriveSubsystem drive = new DriveSubsystem(lift);
-  //private final IntakeSubsystem intake = new IntakeSubsystem();
-  //private final ConveyorSubsystem conveyor = new ConveyorSubsystem();
-  //private final LauncherSubsystem launcher = new LauncherSubsystem();
+  private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final ConveyorSubsystem conveyor = new ConveyorSubsystem();
+  private final LauncherSubsystem launcher = new LauncherSubsystem();
+  private final LiftBrakeSubsystem liftBrake = new LiftBrakeSubsystem();
+  private final ClimbHookSubsystem climbHook = new ClimbHookSubsystem();
   private final LEDSubsystem led = new LEDSubsystem();
 
 
@@ -54,7 +59,19 @@ public class RobotContainer {
     SmartDashboard.putData("Green LED", new RunCommand(() -> led.green(),led));
     SmartDashboard.putData("Red LED", new RunCommand(() -> led.red(),led));
     SmartDashboard.putData("Blue LED", new RunCommand(() -> led.blue(),led));
-    led.purple(); // Turns on Purple LED's even when disabled
+
+    SmartDashboard.putData("Close Climb Hook", new InstantCommand(climbHook::closeClimbHook, climbHook));
+    SmartDashboard.putData("Open Climb Hook", new InstantCommand(climbHook::openClimbHook, climbHook));
+
+    SmartDashboard.putData("Conveyor In", new RunCommand(() -> conveyor.manualMoveConveyor(Constants.CONVEYOR_SPEED), conveyor));
+    SmartDashboard.putData("Conveyor Out", new RunCommand(() -> conveyor.manualMoveConveyor(-Constants.CONVEYOR_SPEED), conveyor));
+
+    SmartDashboard.putData("Intake In", new RunCommand(() -> intake.manualIntake(Constants.INTAKE_SPEED), intake));
+    SmartDashboard.putData("Intake Out", new RunCommand(() -> intake.manualIntake(-Constants.INTAKE_SPEED), intake));
+
+
+    led.purple(); // Turns on Purple LED's even when disabled ---- There may be a better place 
+    //for this I think this is a periodic call and this would be best to be a one time call but it seems to work
     
 
     // Configure the button bindings
@@ -63,28 +80,26 @@ public class RobotContainer {
     // Configure default commands
     // Set the default drive command to split-stick arcade drive
     drive.setDefaultCommand(
-    
-      new RunCommand(() -> drive
-  
-       // A split-stick arcade command, with forward/backward controlled by the left
+       new RunCommand(() -> drive
+         // A split-stick arcade command, with forward/backward controlled by the left
         // hand, and turning controlled by the right.
-       
-      .teleopDrive(-driverController.getRawAxis(Constants.GP_LEFT_Y_AXIS),
+        .teleopDrive(-driverController.getRawAxis(Constants.GP_LEFT_Y_AXIS),
                    driverController.getRawAxis(Constants.GP_RIGHT_X_AXIS)), drive));
 
     lift.setDefaultCommand(
-    
       new RunCommand(() -> lift
-  
        // Left Trigger and Right Trigger Drive Lift
-       
-      .manualLift(-driverController.getRawAxis(Constants.GP_LEFT_TRIGGER) + driverController.getRawAxis(Constants.GP_RIGHT_TRIGGER)
-                   ), lift));
+      .manualLift(-driverController.getRawAxis(Constants.GP_LEFT_TRIGGER) + driverController.getRawAxis(Constants.GP_RIGHT_TRIGGER)), lift));
 
-    //conveyor.setDefaultCommand(new AutoConveyorCommand(conveyor));
+    conveyor.setDefaultCommand(new AutoConveyorCommand(conveyor));
     
+ 
+
+    launcher.setDefaultCommand(new RunCommand(launcher::velocityClosedLoopLaunch, launcher));
+
+    liftBrake.setDefaultCommand(new RunCommand(liftBrake::liftBrakeOn, liftBrake));
+
     led.setDefaultCommand(new RunCommand(led::rainbow, led));
-    
 
   }
 

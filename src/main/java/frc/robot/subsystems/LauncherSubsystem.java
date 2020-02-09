@@ -73,6 +73,8 @@ public class LauncherSubsystem extends SubsystemBase {
         pidController.setFF(kFF);
         pidController.setOutputRange(kMinOutput, kMaxOutput);
 
+        SmartDashboard.putNumber("Velocity Set", 0.0);
+
 
 
 
@@ -86,6 +88,7 @@ public class LauncherSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Launcher Velocity", getLauncherVelocity());
     SmartDashboard.putBoolean("At Set Velocity", isAtVelocity());
     SmartDashboard.putNumber("Launcher Setpoint", getVelocitySetpoint());
+    setVelocitySetpoint(SmartDashboard.getNumber("Velocity Set", 0.0));//Make this a slider to change velocity setpoint
   }
 
   public void manualLanuch(double speed){

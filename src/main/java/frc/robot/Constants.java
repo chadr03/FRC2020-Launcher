@@ -78,7 +78,9 @@ public static final int GP_RIGHT_JOYSTICK_BUTTON = 10;
 
 //Mechanism Constants
 public static final double CONVEYOR_SPEED = 0.6;
-public static final double LAUNCHER_SPEED = 5000;
+public static final double INTAKE_SPEED = 0.6;
+public static final double LAUNCHER_SPEED_LONG = 5000;
+public static final double LAUNCHER_SPEED_SHORT = 2000;
 public static final int SPARK_MAX_CURRENT_LIMIT = 60;
 public static final int TALON_SRX_PEAK_CURRENT_LIMIT = 60;
 public static final int TALON_SRX_CONT_CURRENT_LIMIT = 40;
