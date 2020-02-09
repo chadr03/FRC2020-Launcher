@@ -41,7 +41,7 @@ public class DriveSubsystem extends SubsystemBase {
   
   public DriveSubsystem(LiftSubsystem liftSubsystem) {
     //the liftSubsytem passed into the construstor is set into the global lift subsystem
-    //drive_LiftSubsystem = liftSubsystem;
+    drive_LiftSubsystem = liftSubsystem;
 
     //Resets motor controllers to default conditions
     leftLeader.restoreFactoryDefaults();
@@ -62,9 +62,7 @@ public class DriveSubsystem extends SubsystemBase {
     //Sets up endcoders
     leftEncoder = leftLeader.getEncoder();
     rightEncoder = rightLeader.getEncoder();
-    //if encoder is counting down when going forward ajust this setting
-    //rightEncoder.setInverted(false);
-    //leftEncoder.setInverted(false);
+
 
   }
 

@@ -34,7 +34,7 @@ public class LiftSubsystem extends SubsystemBase {
   PigeonIMU imu = new PigeonIMU(liftFollower);
 
   //DoubleSolenoid hangerSolenoid = new DoubleSolenoid(Constants.HANGER_OPEN_PCM_PORT, Constants.HANGER_CLOSED_PCM_PORT);
-  //Solenoid liftBrake = new Solenoid(Constants.LIFT_BRAKE_PCM_PORT);
+  
 
   private int liftSetPoint = 0;
  
@@ -126,13 +126,7 @@ public class LiftSubsystem extends SubsystemBase {
     hangerSolenoid.set(Value.kOff);
   }
 
-  public void liftBrakeOn(){
-    liftBrake.set(true);
-  }
 
-  public void liftBrakeOff(){
-    liftBrake.set(false);
-  }
 
   */
   public double getAngle(){
