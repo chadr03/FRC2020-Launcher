@@ -87,6 +87,8 @@ public static final int TALON_SRX_CONT_CURRENT_LIMIT = 40;
 public static final int TALON_SRX_PEAK_CURRENT_DURATION = 100;
 
 //Lift Motion Magic
+public static final int LIFT_FORWARD_LIMIT = 20000;
+public static final int LIFT_REVERSE_LIMIT = 0;
 public static final double LIFT_KP = 0.2;
 public static final double LIFT_KI = 0.0;
 public static final double LIFT_KD = 0.0;

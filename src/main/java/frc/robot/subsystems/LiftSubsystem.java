@@ -43,11 +43,15 @@ public class LiftSubsystem extends SubsystemBase {
     liftLeader.configPeakCurrentDuration(Constants.TALON_SRX_PEAK_CURRENT_DURATION);
     liftLeader.configContinuousCurrentLimit(Constants.TALON_SRX_CONT_CURRENT_LIMIT);
     liftLeader.enableCurrentLimit(true);
+    
+
 
     liftFollower.configPeakCurrentLimit(Constants.TALON_SRX_PEAK_CURRENT_LIMIT);
     liftFollower.configPeakCurrentDuration(Constants.TALON_SRX_PEAK_CURRENT_DURATION);
     liftFollower.configContinuousCurrentLimit(Constants.TALON_SRX_CONT_CURRENT_LIMIT);
     liftFollower.enableCurrentLimit(true);
+
+
 
 
 
@@ -59,6 +63,13 @@ public class LiftSubsystem extends SubsystemBase {
     liftLeader.setSensorPhase(false);
 		liftLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 
+    //Sets up software limit switches
+    liftLeader.configForwardSoftLimitEnable(true);
+    liftLeader.configForwardSoftLimitThreshold(Constants.LIFT_FORWARD_LIMIT);
+
+
+    liftLeader.configReverseSoftLimitEnable(true);
+    liftLeader.configReverseSoftLimitThreshold(Constants.LIFT_REVERSE_LIMIT);
 
     //Motion Magic Setup
     /* Set relevant frame periods to be at least as fast as periodic rate */
@@ -120,6 +131,8 @@ public class LiftSubsystem extends SubsystemBase {
 		imu.getYawPitchRoll(ypr_deg);
 		return ypr_deg[0];
   }
+
+
 
   public int getLiftPosition(){
     return this.liftLeader.getSelectedSensorPosition(0);

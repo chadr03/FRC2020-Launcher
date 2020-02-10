@@ -12,6 +12,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -38,6 +41,12 @@ public class DriveSubsystem extends SubsystemBase {
 
   //Sets up a global lift subsystem so the pidgeon that is on the liftFollow talon can be used
   LiftSubsystem drive_LiftSubsystem;
+
+  //Encoder Ticks to Meter Conversion (Calculates the Circumferanc of a 6" wheel converts to m and then divides by the number of ticks per rev)
+  private double ticksToMeter = (Math.PI * 6 * 0.0254) / 540;
+
+  // Odometry class for tracking robot pose
+  private final DifferentialDriveOdometry odometry;
   
   public DriveSubsystem(LiftSubsystem liftSubsystem) {
     //the liftSubsytem passed into the construstor is set into the global lift subsystem
@@ -63,6 +72,9 @@ public class DriveSubsystem extends SubsystemBase {
     leftEncoder = leftLeader.getEncoder();
     rightEncoder = rightLeader.getEncoder();
 
+    resetEncoders();
+    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+
 
   }
 
@@ -70,12 +82,27 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
+    // Update the odometry in the periodic block
+    odometry.update(Rotation2d.fromDegrees(getHeading()), getLeftEncoderPositionMeter(),
+    getRightEncoderPositionMeter());
+
 
     //Smart Dashboard Items
     SmartDashboard.putNumber("Left Drive Encoder Position", getLeftEncoderPosition());
     SmartDashboard.putNumber("Right Drive Encoder Position", getRightEncoderPosition());
     //SmartDashboard.putNumber("Drive Angle", getAngle());
   }
+
+    /**
+   * Returns the currently-estimated pose of the robot.
+   *
+   * @return The pose.
+   */
+  public Pose2d getPose() {
+    return odometry.getPoseMeters();
+  }
+
+  //*********************need to keep adding Ramsette Stuff here
 
   public void teleopDrive(double move, double turn) {
     drive.arcadeDrive(move, turn);
@@ -97,6 +124,14 @@ public class DriveSubsystem extends SubsystemBase {
     return rightEncoder.getPosition();
   }
 
+  public double getLeftEncoderPositionMeter(){
+    return leftEncoder.getPosition() * ticksToMeter;
+  }
+
+  public double getRightEncoderPositionMeter(){
+    return rightEncoder.getPosition() * ticksToMeter;
+  }  
+
   public double getLeftEncoderVelocity(){
     return leftEncoder.getVelocity();
   }
@@ -105,7 +140,10 @@ public class DriveSubsystem extends SubsystemBase {
     return rightEncoder.getVelocity();
   }
 
-  public double getAngle(){
-    return drive_LiftSubsystem.getAngle();
+  ///Need to add encoder rate meter/second
+
+  //Returns heading 180 to -180.  Right turn is negative and Left turn is positive
+  public double getHeading(){
+    return Math.IEEEremainder(drive_LiftSubsystem.getAngle(), 360);
   }
 }
