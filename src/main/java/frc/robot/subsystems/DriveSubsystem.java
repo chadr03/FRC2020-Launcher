@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -42,8 +43,11 @@ public class DriveSubsystem extends SubsystemBase {
   //Sets up a global lift subsystem so the pidgeon that is on the liftFollow talon can be used
   LiftSubsystem drive_LiftSubsystem;
 
-  //Encoder Ticks to Meter Conversion (Calculates the Circumferanc of a 6" wheel converts to m and then divides by the number of ticks per rev)
+  //Encoder Ticks to Meter Conversion factor (Calculates the Circumferance of a 6" wheel converts to m and then divides by the number of ticks per rev)
   private double ticksToMeter = (Math.PI * 6 * 0.0254) / 540;
+  
+  //Encoder Velocity RPM to Wheel Surface Speed meter/second conversion factor
+  private double rpmToMeterPerSec = (Math.PI * 6 * 0.0254) / 60;
 
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry odometry;
@@ -102,10 +106,43 @@ public class DriveSubsystem extends SubsystemBase {
     return odometry.getPoseMeters();
   }
 
-  //*********************need to keep adding Ramsette Stuff here
+  /**
+   * Returns the current wheel speeds of the robot.
+   *
+   * @return The current wheel speeds.
+   */
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(getLeftEncoderVelocityMeterPerSec(), getRightEncoderVelocityMeterPerSec());
+  }
+
+  /**
+   * Resets the odometry to the specified pose.
+   *
+   * @param pose The pose to which to set the odometry.
+   */
+  public void resetOdometry(Pose2d pose) {
+    resetEncoders();
+    odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+  }
+
+
+
+ 
 
   public void teleopDrive(double move, double turn) {
     drive.arcadeDrive(move, turn);
+  }
+
+  /**
+   * Controls the left and right sides of the drive directly with voltages.
+   *
+   * @param leftVolts  the commanded left output
+   * @param rightVolts the commanded right output
+   */
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftLeader.setVoltage(leftVolts);
+    rightLeader.setVoltage(rightVolts);
+
   }
 
 
@@ -130,7 +167,16 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getRightEncoderPositionMeter(){
     return rightEncoder.getPosition() * ticksToMeter;
-  }  
+  } 
+  
+    /**
+   * Gets the average distance of the two encoders.
+   *
+   * @return the average of the two encoder readings
+   */
+  public double getAverageEncoderPositionMeter() {
+    return (getLeftEncoderPositionMeter() + getRightEncoderPositionMeter()) / 2.0;
+  }
 
   public double getLeftEncoderVelocity(){
     return leftEncoder.getVelocity();
@@ -140,10 +186,22 @@ public class DriveSubsystem extends SubsystemBase {
     return rightEncoder.getVelocity();
   }
 
+  public double getLeftEncoderVelocityMeterPerSec(){
+    return getLeftEncoderVelocity() * rpmToMeterPerSec;
+  }
+
+  public double getRightEncoderVelocityMeterPerSec(){
+    return getRightEncoderVelocity() * rpmToMeterPerSec;
+  }
+
   ///Need to add encoder rate meter/second
 
   //Returns heading 180 to -180.  Right turn is negative and Left turn is positive
   public double getHeading(){
     return Math.IEEEremainder(drive_LiftSubsystem.getAngle(), 360);
+  }
+
+  public void zeroHeading(){
+    drive_LiftSubsystem.resetGyro();
   }
 }

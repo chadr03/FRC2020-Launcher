@@ -128,9 +128,13 @@ public class LiftSubsystem extends SubsystemBase {
   */
   public double getAngle(){
     double[] ypr_deg = new double[3];
-		imu.getYawPitchRoll(ypr_deg);
+    imu.getYawPitchRoll(ypr_deg);
 		return ypr_deg[0];
   }
+
+  public void resetGyro(){
+    imu.setYaw(0.0);
+  }  
 
 
 
